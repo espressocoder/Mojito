@@ -1,0 +1,16 @@
+FILE(GLOB_RECURSE hyperose_SOURCES "*.cpp")
+
+ADD_EXECUTABLE(hyperosed ${hyperose_SOURCES})
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wno-braced-scalar-init")
+
+IF(ENABLE_SHARED_LIBS)
+    ADD_DEFINITIONS(-DBCS_DLL=1)
+    TARGET_LINK_LIBRARIES(hyperosed ${mongoose_LIBRARY})
+ELSE()
+    ADD_DEFINITIONS(-DBCS_STATIC=1)
+    TARGET_LINK_LIBRARIES(hyperosed ${mongoose_LIBRARY})
+ENDIF()
+
+INSTALL(TARGETS hyperosed DESTINATION bin)
